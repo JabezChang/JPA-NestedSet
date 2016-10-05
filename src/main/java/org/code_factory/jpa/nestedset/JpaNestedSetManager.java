@@ -93,9 +93,11 @@ public class JpaNestedSetManager implements NestedSetManager {
         cq.where(cb.ge(queryRoot.<Number>get(config.getLeftFieldName()), 1));
         cq.orderBy(cb.asc(queryRoot.get(config.getLeftFieldName())));
         applyRootId(clazz, cq, rootId);
+        List<T> listClass = em.createQuery(cq).getResultList();
+
 
         List<Node<T>> tree = new ArrayList<Node<T>>();
-        for (T n : em.createQuery(cq).getResultList()) {
+        for (T n :listClass) {
             tree.add(getNode(n));
         }
 
@@ -149,7 +151,7 @@ public class JpaNestedSetManager implements NestedSetManager {
      * @param maxLevel
      * @return void
      */
-    private <T extends NodeInfo> void buildTree(List<Node<T>> treeList, int maxLevel) {
+    public  <T extends NodeInfo> void buildTree(List<Node<T>> treeList, int maxLevel) {
         Node<T> rootNode = treeList.get(0);
 
         Stack<JpaNode<T>> stack = new Stack<JpaNode<T>>();

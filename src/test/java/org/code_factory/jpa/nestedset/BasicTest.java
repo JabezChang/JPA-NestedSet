@@ -9,6 +9,7 @@
 
 package org.code_factory.jpa.nestedset;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.code_factory.jpa.nestedset.model.Category;
@@ -59,6 +60,48 @@ public class BasicTest extends FunctionalNestedSetTest {
         nsm.clear();
     }
 
+
+    @Test public void testBuildTree(){
+
+
+        Category root1 = new Category();
+        root1.setLeftValue(1);
+        root1.setRightValue(6);
+        root1.setRootValue(0);
+        root1.setLevel(0);
+        root1.setId(100L);
+        root1.setName("Programming");
+
+        Category javaCat2 = new Category();
+        javaCat2.setLeftValue(2);
+        javaCat2.setRightValue(3);
+        javaCat2.setRootValue(0);
+        javaCat2.setLevel(1);
+        javaCat2.setId(101L);
+        javaCat2.setName("Java");
+
+        Category netCat2 = new Category();
+        netCat2.setLeftValue(4);
+        netCat2.setRightValue(5);
+        netCat2.setRootValue(0);
+        netCat2.setLevel(1);
+        netCat2.setId(102L);
+        netCat2.setName(".NET");
+
+        List<Category> listTree = new ArrayList<Category>();
+        listTree.add(root1); listTree.add(javaCat2);  listTree.add(netCat2);
+
+
+
+        List<Node<Category>> tree = new ArrayList<Node<Category>>();
+        for (Category n : listTree) {
+            tree.add(nsm.getNode(n));
+        }
+        nsm.buildTree(tree,0);
+        System.out.println(tree.toString());
+    }
+
+
     @Test public void testCreateRoot() {
         Category cat = new Category();
         cat.setName("Java");
@@ -79,8 +122,8 @@ public class BasicTest extends FunctionalNestedSetTest {
     @Test public void testFetchTree() {
         this.createBasicTree();
 
-        List<Node<Category>> treeTest = nsm.fetchTreeAsList(Category.class, 0 , 2);
-        treeTest = nsm.fetchTreeAsList(Category.class, 0 , 1);
+//        List<Node<Category>> treeTest = nsm.fetchTreeAsList(Category.class, 0 , 2);
+//        treeTest = nsm.fetchTreeAsList(Category.class, 0 , 1);
         List<Node<Category>> tree = nsm.fetchTreeAsList(Category.class);
         assert tree.size() == 3;
         Iterator<Node<Category>> iter = tree.iterator();
@@ -286,7 +329,4 @@ public class BasicTest extends FunctionalNestedSetTest {
     }
 
 
-    public static void main(String[] args) {
-
-    }
 }

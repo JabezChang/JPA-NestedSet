@@ -91,4 +91,9 @@ public class Category implements NodeInfo {
     @Override public String toString() {
         return "[Category: id=" + this.id + ", name=" + this.name + "-" + super.toString() + "]";
     }
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

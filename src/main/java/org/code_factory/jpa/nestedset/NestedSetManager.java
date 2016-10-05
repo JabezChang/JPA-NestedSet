@@ -87,6 +87,19 @@ public interface NestedSetManager {
      */
     <T extends NodeInfo> List<Node<T>> fetchTreeAsList(Class<T> clazz, int rootId, int maxLevel);
 
+    /***
+     * 所有数据必须按左值排序,而且id不能为null
+     * Promise treeList is order by left key and all items in treeList id must be not null
+     * Establishes all parent/child/ancestor/descendant relationships of all the nodes in
+     * the given list. As a result, invocations on the corresponding methods on these node
+     * instances will not trigger any database queries.
+     * @param treeList
+     * @param maxLevel
+     * @param <T>
+     * @return
+     */
+    <T extends NodeInfo> void buildTree(List<Node<T>> treeList, int maxLevel);
+
     /**
      * Gets the EntityManager used by this NestedSetManager.
      *

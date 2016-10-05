@@ -21,7 +21,7 @@ import org.code_factory.jpa.nestedset.annotations.RootColumn;
 @Entity
 public class Category implements NodeInfo {
     @Id @GeneratedValue
-    private int id;
+    private Long id;
     private String name;
 
     @Column(updatable=false)
@@ -36,7 +36,7 @@ public class Category implements NodeInfo {
     @RootColumn
     private int rootId;
 
-    @Override public int getId() {
+    @Override public Long getId() {
         return this.id;
     }
 

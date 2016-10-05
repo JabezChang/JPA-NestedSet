@@ -166,7 +166,11 @@ public class JpaNestedSetManager implements NestedSetManager {
             level = node.getLevel();
 
             if (node != rootNode) {
+
                 JpaNode<T> parent = stack.peek();
+                while (parent.getLevel() >= node.getLevel())
+                    parent = stack.peek();
+
                 // set parent
                 node.internalSetParent(parent);
                 // add child to parent

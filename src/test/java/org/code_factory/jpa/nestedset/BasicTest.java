@@ -63,10 +63,9 @@ public class BasicTest extends FunctionalNestedSetTest {
 
     @Test public void testBuildTree(){
 
-
         Category root1 = new Category();
         root1.setLeftValue(1);
-        root1.setRightValue(6);
+        root1.setRightValue(8);
         root1.setRootValue(0);
         root1.setLevel(0);
         root1.setId(100L);
@@ -82,21 +81,35 @@ public class BasicTest extends FunctionalNestedSetTest {
 
         Category netCat2 = new Category();
         netCat2.setLeftValue(4);
-        netCat2.setRightValue(5);
+        netCat2.setRightValue(7);
         netCat2.setRootValue(0);
         netCat2.setLevel(1);
         netCat2.setId(102L);
         netCat2.setName(".NET");
 
+        Category wpfCat = new Category();
+        wpfCat.setName("WPF");
+        wpfCat.setLeftValue(5);
+        wpfCat.setRightValue(6);
+        wpfCat.setRootValue(0);
+        wpfCat.setLevel(2);
+        wpfCat.setId(103L);
+
         List<Category> listTree = new ArrayList<Category>();
-        listTree.add(root1); listTree.add(javaCat2);  listTree.add(netCat2);
-
-
-
+        listTree.add(root1); listTree.add(javaCat2);  listTree.add(netCat2); listTree.add(wpfCat);
         List<Node<Category>> tree = new ArrayList<Node<Category>>();
         for (Category n : listTree) {
             tree.add(nsm.getNode(n));
         }
+
+        // Now move it under the .NET category where it really belongs
+        /*
+                 Programming
+                   /   \
+                Java    .NET
+                          |
+                         WPF
+        */
         nsm.buildTree(tree,0);
         System.out.println(tree.toString());
     }
@@ -253,6 +266,7 @@ public class BasicTest extends FunctionalNestedSetTest {
         */
         Node<Category> netNode = this.nsm.getNode(em.find(Category.class, this.netCat.getId()));
         wpfNode.moveAsLastChildOf(netNode);
+
         assert 4 == netNode.getLeftValue();
         assert 7 == netNode.getRightValue();
         assert 5 == wpfNode.getLeftValue();
@@ -294,6 +308,9 @@ public class BasicTest extends FunctionalNestedSetTest {
         assert 10 == progNode.getRightValue();
 
         em.getTransaction().commit();
+
+
+
     }
 
     @Test
